@@ -1,20 +1,17 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { customerProfileUpdateValidator } from '#validators/auth'
+import { customerProfileUpdateValidator } from '#validators/profiles'
 import CustomerProfile from '#models/profiles/customer_profile'
 import { UserRole } from '#types/enums'
 import { AddressRecord } from '#types/address'
 
 export default class CustomerProfileController {
-  /**
-   * Update customer profile information
-   */
   async update({ auth, request, response }: HttpContext) {
     if (!auth.user) {
       return response.unauthorized({ message: 'User not authenticated' })
     }
 
     // Ensure user is a customer
-    if (auth.user.role !== UserRole.USER) {
+    if (auth.user.role !== UserRole.CUSTOMER) {
       return response.forbidden({ message: 'Access denied' })
     }
 

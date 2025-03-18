@@ -6,9 +6,6 @@ import User from '#models/user'
 import { UserRole } from '#types/enums'
 
 export default class UserController {
-  /**
-   * Get the authenticated user's profile
-   */
   async show({ auth, response }: HttpContext) {
     if (!auth.user) {
       return response.unauthorized({ message: 'User not authenticated' })
@@ -17,7 +14,7 @@ export default class UserController {
     const user = auth.user
 
     // Load the appropriate profile based on role
-    if (user.role === UserRole.USER) {
+    if (user.role === UserRole.CUSTOMER) {
       await user.load('customerProfile')
     } else if (user.role === UserRole.VENDOR) {
       await user.load('vendorProfile')
@@ -26,9 +23,6 @@ export default class UserController {
     return this.formatUserResponse(user, response)
   }
 
-  /**
-   * Update base user data (auth-related only)
-   */
   async update({ auth, request, response }: HttpContext) {
     if (!auth.user) {
       return response.unauthorized({ message: 'User not authenticated' })
@@ -66,7 +60,7 @@ export default class UserController {
       await user.save()
 
       // Reload the appropriate profile
-      if (user.role === UserRole.USER) {
+      if (user.role === UserRole.CUSTOMER) {
         await user.load('customerProfile')
       } else if (user.role === UserRole.VENDOR) {
         await user.load('vendorProfile')
@@ -81,9 +75,6 @@ export default class UserController {
     }
   }
 
-  /**
-   * Helper to format consistent user responses
-   */
   private formatUserResponse(user: User, response: Response, message?: string) {
     const responseData: {
       user: Record<string, any>
@@ -96,31 +87,6 @@ export default class UserController {
         emailVerified: user.email_verified,
         createdAt: user.created_at,
       },
-    }
-
-    // Add profile data based on role
-    if (user.role === UserRole.USER && user.customerProfile) {
-      responseData.user = {
-        ...responseData.user,
-        firstName: user.customerProfile.first_name,
-        lastName: user.customerProfile.last_name,
-        userName: user.customerProfile.user_name,
-        phoneNumber: user.customerProfile.phone_number,
-        avatarUrl: user.customerProfile.avatar_url,
-        locale: user.customerProfile.locale,
-        accountStatus: user.customerProfile.account_status,
-        preferences: user.customerProfile.preferences,
-        addresses: user.customerProfile.addresses,
-        wishlist: user.customerProfile.wishlist,
-        cart: user.customerProfile.cart,
-        lastPurchaseDate: user.customerProfile.last_purchase_date,
-      }
-    } else if (user.role === UserRole.VENDOR && user.vendorProfile) {
-      // Add vendor-specific profile data
-      responseData.user = {
-        ...responseData.user,
-        // Add vendor profile fields here
-      }
     }
 
     if (message) {

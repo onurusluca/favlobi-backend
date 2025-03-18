@@ -38,9 +38,6 @@ router
         router.get('/me', [AuthControllers.MeController, 'handle'])
         router.patch('/user', [AuthControllers.UserController, 'update']) // Base user data only
 
-        // Role-specific profile routes
-        router.get('/profile', [AuthControllers.UserController, 'show']) // Get full profile with role data
-
         // Customer-specific routes
         router.patch('/customer-profile', [
           AuthProfilesControllers.CustomerProfileController,

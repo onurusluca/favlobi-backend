@@ -52,7 +52,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   // Helper methods to check roles
   isCustomer() {
-    return this.role === UserRole.USER
+    return this.role === UserRole.CUSTOMER
   }
 
   isVendor() {
@@ -67,5 +67,5 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare customerProfile: HasOneType<typeof CustomerProfile>
 
   @hasOne(() => VendorProfile, { foreignKey: 'user_id' })
-  declare vendorProfile: HasOne<typeof VendorProfile>
+  declare vendorProfile: HasOneType<typeof VendorProfile>
 }

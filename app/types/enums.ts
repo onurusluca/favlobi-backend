@@ -1,5 +1,5 @@
 export enum UserRole {
-  USER = 'user', // Storefront customer
+  CUSTOMER = 'customer', // Storefront customer
   VENDOR = 'vendor', // Seller
   ADVOCATE = 'advocate', // Affiliate, referrer, influencer etc.
   MODERATOR = 'moderator', // Admin with limited access: approve/reject products, reviews, comments etc.

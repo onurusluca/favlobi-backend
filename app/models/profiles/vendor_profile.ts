@@ -6,7 +6,7 @@ import User from '#models/user'
 
 export default class VendorProfile extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
   declare user_id: number

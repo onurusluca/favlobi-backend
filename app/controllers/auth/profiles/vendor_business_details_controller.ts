@@ -1,87 +1,79 @@
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import type { HttpContext } from '@adonisjs/core/http'
+import VendorBusinessDetail from '#models/profiles/vendor_business_details'
 import VendorProfile from '#models/profiles/vendor_profile'
+import { businessDetailsValidator } from '#validators/profiles'
+export default class BusinessDetailsController {
+  /**
+   * Get business details for a vendor
+   */
+  async get({ auth, response }: HttpContext) {
+    if (!auth.user) {
+      return response.unauthorized({ message: 'User not authenticated' })
+    }
 
-export default class VendorBusinessDetail extends BaseModel {
-  @column({ isPrimary: true })
-  declare id: string
+    try {
+      // Find the vendor profile first to ensure they exist and are authorized
+      const vendorProfile = await VendorProfile.findBy('user_id', auth.user.id)
 
-  @column()
-  declare vendor_profile_id: string
+      if (!vendorProfile) {
+        return response.notFound({ message: 'Vendor profile not found' })
+      }
 
-  @column()
-  declare company_name: string
+      const businessDetails = await VendorBusinessDetail.findBy(
+        'vendor_profile_id',
+        vendorProfile.id
+      )
 
-  @column()
-  declare company_type: string
+      if (!businessDetails) {
+        return response.notFound({ message: 'Business details not found' })
+      }
 
-  @column()
-  declare first_name: string | null
+      return response.ok(businessDetails)
+    } catch (error) {
+      console.error(error)
+      return response.internalServerError({
+        message: 'Failed to get business details',
+        error: (error as Error).message,
+      })
+    }
+  }
 
-  @column()
-  declare last_name: string | null
+  /**
+   * Create or update business details for a vendor
+   */
+  async updateOrCreate({ auth, request, response }: HttpContext) {
+    if (!auth.user) {
+      return response.unauthorized({ message: 'User not authenticated' })
+    }
 
-  @column()
-  declare phone_number: string | null
+    try {
+      // Find the vendor profile first
+      const vendorProfile = await VendorProfile.findBy('user_id', auth.user.id)
 
-  @column()
-  declare bank_iban: string | null
+      if (!vendorProfile) {
+        return response.notFound({ message: 'Vendor profile not found' })
+      }
 
-  @column()
-  declare tax_no: string | null
+      const data = await request.validateUsing(businessDetailsValidator)
+      let businessDetails = await VendorBusinessDetail.findBy('vendor_profile_id', vendorProfile.id)
 
-  @column()
-  declare tc_identity_no: string | null
+      if (!businessDetails) {
+        // Create new business details
+        businessDetails = new VendorBusinessDetail()
+        businessDetails.vendor_profile_id = vendorProfile.id
+      }
 
-  @column()
-  declare kep_no: string | null
+      // Update business details properties
+      businessDetails.merge(data as Partial<VendorBusinessDetail>)
+      await businessDetails.save()
 
-  @column()
-  declare mersis_no: string | null
-
-  @column()
-  declare tax_office: string | null
-
-  @column()
-  declare commission_rate: number
-
-  @column()
-  declare invoice_address: any
-
-  @column()
-  declare shipping_address: any
-
-  @column()
-  declare cargo_address_id: string | null
-
-  @column()
-  declare tax_plate_url: string | null
-
-  @column()
-  declare signature_circular_url: string | null
-
-  @column()
-  declare trade_registry_gazette_url: string | null
-
-  @column()
-  declare trade_activity_certificate_url: string | null
-
-  @column()
-  declare vendor_agreement_url: string | null
-
-  @column()
-  declare merchant_key: string | null
-
-  @column()
-  declare intended_categories: any
-
-  @column.dateTime({ autoCreate: true })
-  declare created_at: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updated_at: DateTime
-
-  @belongsTo(() => VendorProfile)
-  declare vendorProfile: BelongsTo<typeof VendorProfile>
+      return response.ok({ businessDetails, message: 'Business details updated successfully' })
+    } catch (error) {
+      console.error(error)
+      return response.badRequest({
+        message: 'Failed to update business details',
+        error: (error as Error).message,
+      })
+    }
+  }
 }
