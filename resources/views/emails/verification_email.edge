@@ -1,0 +1,70 @@
+@mjml()
+<mjml>
+  <mj-head>
+    <mj-title>
+      {{ t('verification_email.welcome') }}
+    </mj-title>
+    <mj-attributes>
+      <mj-all font-family="'Segoe UI', Arial, sans-serif" color="#374151" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section padding="20px 0" background-color="#f9fafb" border-radius="10px 10px 0 0">
+      <!-- Header with logo -->
+      <mj-column>
+        <mj-image src="{{ appLogo }}" alt="{{ appName }}" width="150px" align="center" padding="30px 20px 20px" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Main content -->
+    <mj-section padding="0 30px 30px" background-color="#fff">
+      <mj-column>
+        <mj-text font-size="26px" font-weight="700" color="#1F2937" align="center" padding-bottom="25px">
+          {{ t('verification_email.welcomeHeading') }}
+        </mj-text>
+        <mj-text font-size="16px" padding-bottom="15px">
+          {{ t('verification_email.greeting') }},
+        </mj-text>
+        <mj-text font-size="16px" padding-bottom="25px">
+          {{ t('verification_email.message') }}
+        </mj-text>
+
+        <!-- Button -->
+        <mj-button href="{{ verificationUrl }}" background-color="#F43F5E" color="#ffffff" border-radius="8px"
+          font-weight="bold" font-size="16px" padding="30px 0">
+          {{ t('verification_email.buttonText') }}
+        </mj-button>
+
+        <!-- Note box -->
+        <mj-text font-size="15px" padding="15px" background-color="#FFECB3">
+        <strong
+        color="#F59E0B"
+        >{{ t('verification_email.noteLabel') }}:</strong> {{ t('verification_email.expiryNote') }}
+      </mj-text>
+
+        <mj-text font-size="16px" padding-top="15px">
+          {{ t('verification_email.supportMessage') }} <a href="mailto:{{ supportEmail }}"
+            style="color: #6498ff; text-decoration: underline;">{{ supportEmail }}</a>
+        </mj-text>
+
+        <mj-text font-size="16px" padding-top="30px">
+          {{ t('verification_email.thankYouMessage') }}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="20px" background-color="#f9fafb" border-radius="0 0 10px 10px">
+      <mj-column>
+        <mj-text font-size="15px" color="#6B7280" font-weight="500" align="center" padding-bottom="5px">
+          {{ t('verification_email.teamSignature') }}
+        </mj-text>
+        <mj-text font-size="14px" color="#6B7280" align="center">
+          <a href="{{ websiteUrl }}" style="color: #6498ff; text-decoration: none; font-weight: 500;">{{ websiteDomain
+            }}</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
+@end

@@ -1,12 +1,13 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import type { HasOne as HasOneType } from '@adonisjs/lucid/types/relations'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-
-import { AddressRecord } from '#types/address'
-import { UserRole } from '#models/enum'
+import { UserRole } from '#types/enums'
+import CustomerProfile from '#models/profiles/customer_profile'
+import VendorProfile from '#models/profiles/vendor_profile'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -28,44 +29,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare role: string // Use values from UserRole enum
 
-  // Common profile fields
-  @column()
-  declare first_name: string | null
-
-  @column()
-  declare last_name: string | null
-
-  @column()
-  declare user_name: string | null
-
-  @column()
-  declare phone_number: string | null
-
-  @column()
-  declare avatar_url: string | null
-
-  @column()
-  declare is_verified: boolean
-
-  // Customer-specific fields (null for other roles)
-  @column({
-    prepare: (value) => JSON.stringify(value),
-    consume: (value) => (typeof value === 'string' ? JSON.parse(value) : value),
-  })
-  declare addresses: AddressRecord[] | null
-
-  @column({
-    prepare: (value) => JSON.stringify(value),
-    consume: (value) => (typeof value === 'string' ? JSON.parse(value) : value),
-  })
-  declare preferences: {
-    newsletter: boolean
-  } | null
-
   // System fields
-  @column()
-  declare locale: string
-
   @column()
   declare account_status: string
 
@@ -98,4 +62,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   isAdmin() {
     return this.role === UserRole.ADMIN
   }
+
+  @hasOne(() => CustomerProfile)
+  declare customerProfile: HasOneType<typeof CustomerProfile>
+
+  @hasOne(() => VendorProfile, { foreignKey: 'user_id' })
+  declare vendorProfile: HasOne<typeof VendorProfile>
 }

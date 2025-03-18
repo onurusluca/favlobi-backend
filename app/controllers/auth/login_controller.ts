@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 import { loginAuthValidator } from '#validators/auth'
-import { UserStatus } from '#models/enum'
+import { UserStatus } from '#types/enums'
 import { DateTime } from 'luxon'
 
 export default class LoginController {
@@ -33,14 +33,7 @@ export default class LoginController {
         user: {
           id: user.id,
           email: user.email,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          userName: user.user_name,
-          phoneNumber: user.phone_number,
-          accountStatus: user.account_status,
-          isVerified: user.is_verified,
           emailVerified: user.email_verified,
-          preferences: user.preferences,
           lastLogin: user.last_login_at,
         },
         token: token.value!.release(),

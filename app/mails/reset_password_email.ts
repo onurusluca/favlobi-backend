@@ -1,10 +1,10 @@
-// app/mails/verification_email.ts
+// app/mails/reset_password_email.ts
 import { BaseMail } from '@adonisjs/mail'
 import User from '#models/user'
 import env from '#start/env'
 import i18nManager from '@adonisjs/i18n/services/main'
 
-export default class VerificationEmail extends BaseMail {
+export default class ResetPasswordEmail extends BaseMail {
   constructor(
     private user: User,
     private token: string
@@ -18,8 +18,8 @@ export default class VerificationEmail extends BaseMail {
     name: env.get('MAIL_FROM_NAME', 'Favlobi'),
   }
 
-  // Default subject (will be overridden in prepare method)
-  subject = 'Hesabınızı doğrulayın'
+  // Default subject
+  subject = 'Şifre Sıfırlama'
 
   prepare() {
     // Get user's locale or default to 'tr'
@@ -31,8 +31,7 @@ export default class VerificationEmail extends BaseMail {
 
     // Try to get translated subject or use default
     try {
-      // Use fallback directly instead of using t() with a second parameter
-      const translatedSubject = i18n.t('verification_email.emailSubject')
+      const translatedSubject = i18n.t('reset_password.emailSubject')
       if (translatedSubject && !translatedSubject.includes('translation missing')) {
         this.subject = translatedSubject
       }
@@ -40,14 +39,14 @@ export default class VerificationEmail extends BaseMail {
       console.error('Translation error (using default subject):', error)
     }
 
-    // Create verification URL
-    const verificationUrl = `${env.get('APP_URL')}/verify-email/${this.token}`
+    // Create reset URL
+    const resetUrl = `${env.get('APP_URL')}/reset-password/${this.token}`
 
     // Set email content
-    this.message.htmlView('emails/verification_email', {
+    this.message.htmlView('emails/reset_password_email', {
       i18n,
       user: this.user,
-      verificationUrl,
+      resetUrl,
       appLogo: env.get(
         'APP_LOGO_URL',
         'https://favlobi.b-cdn.net/site-assets/favlobi-logo-black.png?class=thumbnail'

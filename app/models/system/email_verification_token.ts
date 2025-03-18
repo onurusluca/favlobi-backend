@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo as BelongsToType } from '@adonisjs/lucid/types/relations'
-import User from './user.js'
+import User from '../user.js'
 
 export default class EmailVerificationToken extends BaseModel {
   @column({ isPrimary: true })
