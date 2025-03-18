@@ -1,0 +1,7 @@
+export { default as LoginController } from './login_controller.js'
+export { default as LogoutController } from './logout_controller.js'
+export { default as RegisterController } from './register_controller.js'
+export { default as MeController } from './me_controller.js'
+export { default as VerifyEmailController } from './verify_email_controller.js'
+export { default as UpdatePreferencesController } from './update_preferences_controller.js'
+export { default as UpdateAddressesController } from './update_addresses_controller.js'

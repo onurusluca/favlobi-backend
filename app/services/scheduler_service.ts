@@ -1,5 +1,5 @@
 import { CronJob } from 'cron'
-import { JobConfig } from '../types/job.types.js'
+import { JobConfig } from '../types/job.js'
 
 export default class SchedulerService {
   private jobs: JobConfig[] = []

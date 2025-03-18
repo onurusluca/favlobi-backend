@@ -1,4 +1,4 @@
-import env from '#start/env'
+/* import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
 
 const dbConfig = defineConfig({
@@ -18,6 +18,34 @@ const dbConfig = defineConfig({
         paths: ['database/migrations'],
       },
 
+      seeders: {
+        paths: ['./database/seeders/main'],
+      },
+    },
+  },
+})
+
+export default dbConfig
+ */
+
+import env from '#start/env'
+import { defineConfig } from '@adonisjs/lucid'
+
+const dbConfig = defineConfig({
+  connection: 'postgres',
+  connections: {
+    postgres: {
+      client: 'pg',
+      connection: env.get('DATABASE_URL'),
+      // Use the following if you need custom Neon settings
+      // pool: {
+      //   min: 2,
+      //   max: 20,
+      // },
+      migrations: {
+        naturalSort: true,
+        paths: ['database/migrations'],
+      },
       seeders: {
         paths: ['./database/seeders/main'],
       },

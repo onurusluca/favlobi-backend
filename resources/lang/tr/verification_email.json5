@@ -1,0 +1,13 @@
+{
+  welcome: 'Hoş Geldiniz',
+  welcomeHeading: 'E-posta Doğrulama',
+  greeting: 'Merhaba',
+  message: 'Lütfen aşağıdaki düğmeye tıklayarak e-posta adresinizi doğrulayın.',
+  buttonText: 'E-posta Adresini Doğrula',
+  noteLabel: 'Not',
+  expiryNote: 'Bu bağlantı 24 saat içinde sona erecek.',
+  supportMessage: 'Herhangi bir sorunuz varsa, lütfen bizimle iletişime geçin',
+  thankYouMessage: 'Teşekkür ederiz!',
+  teamSignature: 'Ekibiniz',
+  emailSubject: 'E-postanızı Doğrulayın',
+}

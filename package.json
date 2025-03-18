@@ -28,7 +28,8 @@
     "#database/*": "./database/*.js",
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",
-    "#config/*": "./config/*.js"
+    "#config/*": "./config/*.js",
+    "#types/*": "./app/types/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -53,13 +54,22 @@
     "@adonisjs/auth": "^9.3.1",
     "@adonisjs/core": "^6.17.2",
     "@adonisjs/cors": "^2.2.1",
+    "@adonisjs/i18n": "^2.2.0",
     "@adonisjs/limiter": "^2.3.3",
     "@adonisjs/lucid": "^21.6.0",
+    "@adonisjs/mail": "^9.2.2",
+    "@adonisjs/redis": "^9.2.0",
+    "@neondatabase/serverless": "^0.10.4",
+    "@types/mjml": "^4.7.4",
     "@vinejs/vine": "^3.0.0",
     "cron": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "json5": "^2.2.3",
     "luxon": "^3.5.0",
-    "pg": "^8.14.0",
+    "mjml": "^4.15.3",
+    "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
+    "resend": "^4.1.2",
     "socket.io": "^4.8.1"
   },
   "hotHook": {

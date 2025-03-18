@@ -17,7 +17,6 @@ export default class DeleteInactiveChannelsJob extends BaseJob {
         await channel.delete()
         const channelName = channel.name
         Ws.io?.to(channelName).emit('channelDeleted', channelName)
-        console.log(`[Scheduler] - Deleted inactive channel: ${channel.name}`)
       }
 
     } catch (error) {

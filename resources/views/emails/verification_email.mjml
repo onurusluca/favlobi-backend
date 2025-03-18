@@ -1,0 +1,53 @@
+@mjml()
+<mjml>
+  <mj-head>
+    <mj-title>{{ i18n.t('verification.title') }}</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" line-height="1.6" color="#374151" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#F3F4F6">
+    <mj-section padding="20px" background-color="#ffffff">
+      <mj-column>
+        <mj-image src="https://favlobi.b-cdn.net/site-assets/favlobi-logo-black.png?class=thumbnail" alt="Favlobi Logo" width="125px" padding-bottom="20px" />
+
+        <mj-text font-size="24px" color="#1F2937" font-weight="bold" align="center" padding-bottom="20px">
+          {{ i18n.t('verification.heading') }}
+        </mj-text>
+
+        <mj-text padding-bottom="15px">
+          {{ i18n.t('verification.greeting') }}
+        </mj-text>
+
+        <mj-text padding-bottom="15px">
+          {{ i18n.t('verification.message') }}
+        </mj-text>
+
+        <mj-button href="{{ verificationUrl }}" background-color="#10B981" color="#ffffff" border-radius="8px" font-weight="bold" padding="12px 24px">
+          {{ i18n.t('verification.buttonText') }}
+        </mj-button>
+
+        <mj-text padding-bottom="15px">
+          <strong>{{ i18n.t('verification.noteLabel') }}</strong> {{ i18n.t('verification.expiryNote') }}
+        </mj-text>
+
+        <mj-text padding-bottom="15px">
+          {{ i18n.t('verification.supportMessage') }} <a href="mailto:{{ i18n.t('verification.supportEmail') }}" style="color: #10B981;">{{ i18n.t('verification.supportEmailText') }}</a> adresinden iletişime geçebilirsiniz.
+        </mj-text>
+
+        <mj-text padding-bottom="20px">
+          {{ i18n.t('verification.thankYouMessage') }}
+        </mj-text>
+
+        <mj-text font-size="14px" color="#6B7280" padding-bottom="5px">
+          {{ i18n.t('verification.teamSignature') }}
+        </mj-text>
+
+        <mj-text font-size="14px" color="#6B7280">
+          <a href="https://favlobi.com/" style="color: #10B981;">favlobi.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
+@end
